@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import GlobalStyles from "../../../globalStyles/globalStyles";
 import { SignInSignUpContainer, SEO, FormInput } from "../../../components";
 
-function Signin() {
+function Signup() {
   const [errors, setErrors] = useState({});
   const [userForm, setUserForm] = useState({
     email: "",
+    username: "",
     password: "",
+    confirmPassword: "",
   });
 
   function handleChange({ target }) {
     const { name, value } = target;
+
+    // Validate username
+    if (name === "username") {
+      if (!value)
+        setErrors({ ...errors, [name]: "Please fill in the username field" });
+      else setErrors({ ...errors, [name]: "" });
+    }
 
     // Validate Email
     if (name === "email") {
@@ -33,6 +40,14 @@ function Signin() {
       else setErrors({ ...errors, [name]: "" });
     }
 
+    // Validate username
+    if (name === "confirmPassword") {
+      if (!value) setErrors({ ...errors, [name]: "Confirm your password" });
+      else if (userForm.password !== value)
+        setErrors({ ...errors, [name]: "Password does not match" });
+      else setErrors({ ...errors, [name]: "" });
+    }
+
     // Set Values
     setUserForm({ ...userForm, [name]: value });
   }
@@ -44,22 +59,31 @@ function Signin() {
   return (
     <>
       <SEO
-        title="Login | Empowered Blockchain"
-        description="Gain access to our unlimited courses"
+        title="Register | Empowered Blockchain"
+        description="Create an account"
         type="article"
       />
 
       <SignInSignUpContainer
-        heading="Sign in"
-        subHeading="Sign in using the same email address you use for Empowered Blockchain"
-        buttonText="Sign in"
+        heading="Sign up"
+        subHeading="Sign up to get access to the best courses in tech, cryrto and others"
+        buttonText="Sign up"
         option={{
-          text: "Not a member yet?",
-          routeName: "Sign up for free",
-          route: "/register",
+          text: "Already have an account?",
+          routeName: "Log in",
+          route: "/login",
         }}
         submitForm={submitForm}
       >
+        <FormInput
+          type="text"
+          name="username"
+          label="username"
+          onChange={handleChange}
+          value={userForm.username}
+          error={errors?.username}
+        />
+
         <FormInput
           type="email"
           name="email"
@@ -78,15 +102,17 @@ function Signin() {
           error={errors?.password}
         />
 
-        <Link
-          to="/forgot-password"
-          className={`forgot-password -mt-3.5 mb-1 text-end font-medium text-[.93rem] ${GlobalStyles.gradientText.main}`}
-        >
-          Forgot Password?
-        </Link>
+        <FormInput
+          type="password"
+          name="confirmPassword"
+          label="confirm password"
+          onChange={handleChange}
+          value={userForm.confirmPassword}
+          error={errors?.confirmPassword}
+        />
       </SignInSignUpContainer>
     </>
   );
 }
 
-export default Signin;
+export default Signup;

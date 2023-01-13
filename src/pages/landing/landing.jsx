@@ -2,11 +2,12 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Components
-import { Navigation, SEO } from "../../components";
+import { Navigation, SEO, Footer } from "../../components";
 
 // Pages
 const Home = lazy(() => import("./home/home"));
-const Signin = lazy(() => import("./signin/signin"));
+const Blog = lazy(() => import("./blog/blog"));
+const NoMatch = lazy(() => import("../../components/no-match/no-match"));
 
 function Landing() {
   return (
@@ -23,9 +24,12 @@ function Landing() {
       <Suspense fallback="loading...">
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/login" element={<Signin />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="*" element={<NoMatch />} />
         </Routes>
       </Suspense>
+
+      <Footer />
     </>
   );
 }

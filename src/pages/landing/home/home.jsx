@@ -1,6 +1,6 @@
 import React from "react";
-import { missionContent, visionContent } from "../../../constants/home";
-import { Hero, ZPattern } from "../../../components";
+import { missionContent, visionContent, featuresContent } from "../../../constants/home";
+import { Hero, ZPattern, Features } from "../../../components";
 
 function Home() {
   return (
@@ -8,11 +8,14 @@ function Home() {
       {/* Hero */}
       <Hero />
 
+      {/* Benefits Section (Features) */}
+      <Features title="Features" features={featuresContent} />
+
       {/* Mission Section */}
-      <ZPattern {...missionContent} />
+      <ZPattern {...missionContent} type="mission" />
 
       {/* Vision Section */}
-      <ZPattern {...visionContent} />
+      <ZPattern {...visionContent} variant="inverse" type="vision" />
     </>
   );
 }
